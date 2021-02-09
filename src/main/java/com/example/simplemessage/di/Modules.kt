@@ -5,16 +5,19 @@ import androidx.room.Room
 import com.example.simplemessage.data.apis.ApiService
 import com.example.simplemessage.db.MessagesDao
 import com.example.simplemessage.db.MessagesDatabase
+import com.example.simplemessage.feature.adapters.MessagesListAdapter
 import com.example.simplemessage.feature.messages.MessagesActivity
+import com.example.simplemessage.feature.messages.MessagesRepository
+import com.example.simplemessage.feature.messages.MessagesViewModel
 import com.example.simplemessage.util.Consts
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
+import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
 val retrofitModule = module {
-
     fun provideRetrofit(base_url: String): Retrofit {
         val content = MediaType.get("application/json")
         val json = Json { ignoreUnknownKeys = true }.asConverterFactory(content)
@@ -26,11 +29,9 @@ val retrofitModule = module {
 
     factory { Consts.url }
     single { provideRetrofit(get()) }
-
 }
 
 val databaseModule = module {
-
     fun provideDatabase(app: Application): MessagesDatabase =
         Room.databaseBuilder(app, MessagesDatabase::class.java, "messages_database").build()
 
@@ -39,5 +40,13 @@ val databaseModule = module {
 
     single { provideDatabase(get()) }
     single { provideDao(get()) }
+}
 
+val architectureModule = module {
+    single { MessagesRepository(get()) }
+    viewModel { MessagesViewModel(get()) }
+}
+
+val adaptersModule = module {
+    factory { MessagesListAdapter() }
 }

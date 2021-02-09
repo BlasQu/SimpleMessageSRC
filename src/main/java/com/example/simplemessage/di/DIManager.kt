@@ -11,7 +11,9 @@ class DIManager: Application() {
             androidContext(this@DIManager)
             modules(listOf(
                 retrofitModule,
-                databaseModule
+                databaseModule,
+                architectureModule,
+                adaptersModule
             ))
         }
     }
