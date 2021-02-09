@@ -10,7 +10,8 @@ class DIManager: Application() {
         startKoin {
             androidContext(this@DIManager)
             modules(listOf(
-                retrofitModule
+                retrofitModule,
+                databaseModule
             ))
         }
     }

@@ -1,6 +1,10 @@
 package com.example.simplemessage.di
 
+import android.app.Application
+import androidx.room.Room
 import com.example.simplemessage.data.apis.ApiService
+import com.example.simplemessage.db.MessagesDao
+import com.example.simplemessage.db.MessagesDatabase
 import com.example.simplemessage.feature.messages.MessagesActivity
 import com.example.simplemessage.util.Consts
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -22,5 +26,18 @@ val retrofitModule = module {
 
     factory { Consts.url }
     single { provideRetrofit(get()) }
+
+}
+
+val databaseModule = module {
+
+    fun provideDatabase(app: Application): MessagesDatabase =
+        Room.databaseBuilder(app, MessagesDatabase::class.java, "messages_database").build()
+
+    fun provideDao(db: MessagesDatabase): MessagesDao =
+        db.getDao()
+
+    single { provideDatabase(get()) }
+    single { provideDao(get()) }
 
 }

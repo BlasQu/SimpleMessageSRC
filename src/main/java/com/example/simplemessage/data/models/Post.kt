@@ -1,8 +1,19 @@
 package com.example.simplemessage.data.models
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
+
+@Serializable
+@Entity(tableName = "messages_table")
 data class Post(
-    val description: String,
-    val icon: String,
-    val id: Int,
-    val title: String
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id_db") val id_db: Int = 0,
+    @ColumnInfo(name = "id") val id: Int,
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "description") val description: String,
+    @ColumnInfo(name = "icon") val icon: String
 )
+
+// 2 typy id, jedno dla database, drugie dla id posta pobranego z api, potrzebne,
+// aby rozróżnić posta lokalnego od api (można także użyć to do późniejszych czynności
