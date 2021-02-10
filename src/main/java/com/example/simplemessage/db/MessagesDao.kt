@@ -1,9 +1,6 @@
 package com.example.simplemessage.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.simplemessage.data.models.Message
 import com.example.simplemessage.data.models.Post
 import kotlinx.coroutines.flow.Flow
@@ -19,5 +16,11 @@ interface MessagesDao {
 
     @Query("DELETE FROM messages_table")
     suspend fun deletePosts()
+
+    @Delete
+    suspend fun deletePost(post: Post)
+
+    @Update
+    suspend fun updatePost(post: Post)
 
 }

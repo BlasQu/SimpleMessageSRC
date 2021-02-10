@@ -1,13 +1,12 @@
 package com.example.simplemessage.di
 
 import android.app.Application
-import android.view.View
 import androidx.room.Room
 import com.example.simplemessage.data.apis.ApiService
+import com.example.simplemessage.data.models.Post
 import com.example.simplemessage.db.MessagesDao
 import com.example.simplemessage.db.MessagesDatabase
-import com.example.simplemessage.feature.adapters.MessagesListAdapter
-import com.example.simplemessage.feature.messages.MessagesActivity
+import com.example.simplemessage.feature.messageslist.MessagesListAdapter
 import com.example.simplemessage.feature.messages.MessagesRepository
 import com.example.simplemessage.feature.messages.MessagesViewModel
 import com.example.simplemessage.util.Consts
@@ -52,5 +51,5 @@ val architectureModule = module {
 }
 
 val adaptersModule = module {
-    factory { (click: () -> Unit) -> MessagesListAdapter(click) }
+    factory { (click: (post: Post) -> Unit) -> MessagesListAdapter(click) }
 }

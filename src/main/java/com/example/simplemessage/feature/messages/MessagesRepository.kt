@@ -25,4 +25,12 @@ class MessagesRepository(
         return null
     }
 
+    suspend fun deletePost(post: Post) {
+        dao.deletePost(post)
+    }
+
+    suspend fun updatePost(post: Post) {
+        dao.updatePost(post)
+    }
+
 }

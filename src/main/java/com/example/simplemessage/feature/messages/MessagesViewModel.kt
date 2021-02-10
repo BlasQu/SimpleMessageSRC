@@ -13,6 +13,7 @@ class MessagesViewModel(
 ): ViewModel() {
 
     val postsDataState = MutableStateFlow<LocalDataState>(LocalDataState.Success(emptyList<Post>()))
+    val currentPost = MutableStateFlow<Post?>(null)
 
     init {
         viewModelScope.launch {
@@ -27,6 +28,26 @@ class MessagesViewModel(
                 }
                 else postsDataState.value = LocalDataState.Success(it)
             }
+        }
+    }
+
+    fun deletePost() {
+        val post = currentPost.value!!
+        viewModelScope.launch {
+            repository.deletePost(post)
+            currentPost.value = null
+        }
+    }
+
+    fun updatePost(updatedTitle: String, updatedDescription: String) {
+        val post = currentPost.value!!
+        post.apply {
+            title = updatedTitle
+            description = updatedDescription
+        }
+        viewModelScope.launch {
+            repository.updatePost(post)
+            currentPost.value = post
         }
     }
 

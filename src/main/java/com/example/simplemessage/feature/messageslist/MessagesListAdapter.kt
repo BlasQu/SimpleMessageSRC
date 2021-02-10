@@ -1,8 +1,6 @@
-package com.example.simplemessage.feature.adapters
+package com.example.simplemessage.feature.messageslist
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,14 +9,15 @@ import com.example.simplemessage.databinding.RvMessageItemBinding
 import com.example.simplemessage.util.DiffCallback
 
 class MessagesListAdapter(
-       val onClick: () -> Unit
+       val onClick: (Post) -> Unit
 ): RecyclerView.Adapter<MessagesListAdapter.ViewHolder>() {
     private val messagesData = mutableListOf<Post>()
 
     inner class ViewHolder(val binding: RvMessageItemBinding): RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
-                onClick()
+                if (adapterPosition == -1) return@setOnClickListener
+                else onClick(messagesData[adapterPosition])
             }
         }
     }

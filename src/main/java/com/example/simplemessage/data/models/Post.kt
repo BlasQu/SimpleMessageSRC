@@ -10,8 +10,8 @@ import kotlinx.serialization.Serializable
 data class Post(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id_db") val id_db: Int = 0,
     @ColumnInfo(name = "id") val id: Int,
-    @ColumnInfo(name = "title") val title: String,
-    @ColumnInfo(name = "description") val description: String,
+    @ColumnInfo(name = "title") var title: String,
+    @ColumnInfo(name = "description") var description: String,
     @ColumnInfo(name = "icon") val icon: String
 )
 

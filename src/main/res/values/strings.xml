@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SimpleMessage!</string>
+    <string name="title_hint">Podaj tytuł!</string>
+    <string name="title_error">Pole nie może być puste i musi mieć więcej niż 3 znaki!</string>
+    <string name="edit">Edytuj</string>
+    <string name="delete">Usuń</string>
+    <string name="update">Zaktualizuj</string>
+    <string name="message_info">Informacje o wiadomości</string>
 </resources>
