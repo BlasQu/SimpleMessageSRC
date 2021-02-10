@@ -7,9 +7,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-
     @GET(Consts.key)
-    fun getPosts(): Response<Message>
-
-
+    suspend fun getApiPosts(): Response<Message>
 }

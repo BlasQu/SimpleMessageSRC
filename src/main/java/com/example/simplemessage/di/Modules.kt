@@ -27,8 +27,11 @@ val retrofitModule = module {
             .build()
     }
 
+    fun provideService(retrofit: Retrofit) = retrofit.create(ApiService::class.java)
+
     factory { Consts.url }
     single { provideRetrofit(get()) }
+    single { provideService(get()) }
 }
 
 val databaseModule = module {
@@ -43,7 +46,7 @@ val databaseModule = module {
 }
 
 val architectureModule = module {
-    single { MessagesRepository(get()) }
+    single { MessagesRepository(get(), get()) }
     viewModel { MessagesViewModel(get()) }
 }
 

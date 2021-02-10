@@ -17,7 +17,14 @@ class MessagesViewModel(
     init {
         viewModelScope.launch {
             repository.getPosts().collect {
-                if (it.isEmpty()) postsDataState.value = LocalDataState.Empty
+                if (it.isEmpty()) {
+                    postsDataState.value = LocalDataState.Empty
+                    repository.responseGetPosts()?.let {
+                        viewModelScope.launch {
+                            repository.insertPosts(it)
+                        }
+                    }
+                }
                 else postsDataState.value = LocalDataState.Success(it)
             }
         }
