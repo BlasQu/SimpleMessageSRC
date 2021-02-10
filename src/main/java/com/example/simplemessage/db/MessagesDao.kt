@@ -14,6 +14,9 @@ interface MessagesDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertPosts(list: List<Post>)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertPost(post: Post): Long
+
     @Query("DELETE FROM messages_table")
     suspend fun deletePosts()
 

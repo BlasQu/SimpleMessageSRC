@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.simplemessage.R
 import com.example.simplemessage.data.models.Post
 import com.example.simplemessage.databinding.RvMessageItemBinding
 import com.example.simplemessage.util.DiffCallback
@@ -33,7 +34,8 @@ class MessagesListAdapter(
 
         holder.binding.apply {
             textTitle.text = title
-            imgIcon.setImageURI(iconUri)
+            if (iconUri.isEmpty()) imgIcon.setActualImageResource(R.drawable.no_image_found)
+            else imgIcon.setImageURI(iconUri)
         }
     }
 

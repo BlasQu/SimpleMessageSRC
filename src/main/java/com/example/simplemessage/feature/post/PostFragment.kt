@@ -3,14 +3,18 @@ package com.example.simplemessage.feature.post
 import android.content.Context
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.simplemessage.R
 import com.example.simplemessage.databinding.FragmentPostBinding
 import com.example.simplemessage.feature.messages.MessagesActivity
 import com.example.simplemessage.feature.messages.MessagesViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
@@ -81,13 +85,24 @@ class PostFragment: Fragment(R.layout.fragment_post) {
     }
 
     private fun setupPost() {
-        val post = viewmodel.currentPost.value!!
-        binding.apply {
-            imgPicture.setImageURI(post.icon)
-            textTitle.text = post.title.capitalize(Locale.getDefault())
-            textDescription.apply {
-                text = post.description.capitalize(Locale.getDefault())
-                movementMethod = ScrollingMovementMethod()
+        lifecycleScope.launch {
+            viewmodel.currentPost.collect { post ->
+                Log.d("debug", post.toString())
+                binding.apply {
+                    post?.let {
+                        val title = post.title
+                        val desc = post.description
+                        val iconUri = post.icon
+
+                        if (iconUri.isEmpty()) imgPicture.setActualImageResource(R.drawable.no_image_found)
+                        else imgPicture.setImageURI(iconUri)
+                        textTitle.text = title.capitalize(Locale.getDefault())
+                        textDescription.apply {
+                            text = desc.capitalize(Locale.getDefault())
+                            movementMethod = ScrollingMovementMethod()
+                        }
+                    }
+                }
             }
         }
     }

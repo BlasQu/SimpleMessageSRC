@@ -46,6 +46,10 @@ class MessagesActivity : AppCompatActivity() {
                 else if (textAddTitle.text.trim().toString().isEmpty() ||
                         textAddTitle.text.trim().length < 3) textAddTitle.error = resources.getString(R.string.title_error)
                 else {
+                    val post = Post(0, 0, textAddTitle.text.toString(), "", "")
+                    viewmodel.insertPost(post)
+                    changeFragment()
+
                     textAddTitle.text.clear()
                     textAddTitle.visibility = View.GONE
                     imgBack.visibility = View.GONE

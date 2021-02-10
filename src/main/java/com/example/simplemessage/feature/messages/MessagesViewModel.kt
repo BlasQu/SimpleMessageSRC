@@ -1,5 +1,6 @@
 package com.example.simplemessage.feature.messages
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simplemessage.data.models.Post
@@ -45,8 +46,16 @@ class MessagesViewModel(
             title = updatedTitle
             description = updatedDescription
         }
+        currentPost.value = post
         viewModelScope.launch {
             repository.updatePost(post)
+        }
+    }
+
+    fun insertPost(post: Post) {
+        viewModelScope.launch {
+            val insertedID = repository.insertPost(post)
+            post.id_db = insertedID.toInt()
             currentPost.value = post
         }
     }
