@@ -1,5 +1,6 @@
 package com.example.simplemessage.feature.messages
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,7 +20,7 @@ class MessagesViewModel(
     init {
         viewModelScope.launch {
             repository.getPosts().collect {
-                if (it.isEmpty()) {
+                if (it.isEmpty() && repository.isConnected()) {
                     postsDataState.value = LocalDataState.Empty
                     repository.responseGetPosts()?.let {
                         viewModelScope.launch {
@@ -27,6 +28,7 @@ class MessagesViewModel(
                         }
                     }
                 }
+                else if (it.isEmpty()) postsDataState.value = LocalDataState.Error("Brak połączenia internetowego!")
                 else postsDataState.value = LocalDataState.Success(it)
             }
         }
@@ -40,11 +42,14 @@ class MessagesViewModel(
         }
     }
 
-    fun updatePost(updatedTitle: String, updatedDescription: String) {
+    fun updatePost(updatedTitle: String, updatedDescription: String, imageUri: Uri?) {
         val post = currentPost.value!!
         post.apply {
             title = updatedTitle
             description = updatedDescription
+            imageUri?.let {
+                icon = imageUri.toString()
+            }
         }
         currentPost.value = post
         viewModelScope.launch {

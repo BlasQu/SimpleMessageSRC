@@ -11,6 +11,7 @@ import com.example.simplemessage.data.models.Post
 import com.example.simplemessage.databinding.ActivityMessagesBinding
 import com.example.simplemessage.feature.messageslist.MessagesListFragment
 import com.example.simplemessage.feature.post.PostFragment
+import com.google.android.material.snackbar.Snackbar
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MessagesActivity : AppCompatActivity() {
@@ -55,6 +56,7 @@ class MessagesActivity : AppCompatActivity() {
                     imgBack.visibility = View.GONE
                     layoutAddItem.visibility = View.VISIBLE
                     supportActionBar!!.title = resources.getString(R.string.message_info)
+                    imgAddPost.visibility = View.GONE
                 }
             }
 
@@ -104,6 +106,7 @@ class MessagesActivity : AppCompatActivity() {
 
                 binding.holderToolbar.apply {
                     layoutAddItem.visibility = View.VISIBLE
+                    imgAddPost.visibility = View.VISIBLE
                 }
 
                 supportActionBar!!.apply {
@@ -130,5 +133,9 @@ class MessagesActivity : AppCompatActivity() {
         val entries = supportFragmentManager.backStackEntryCount
         val lastEntry = supportFragmentManager.getBackStackEntryAt(entries - 1)
         return lastEntry.name!!
+    }
+
+    fun snackbarMessage(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
 }

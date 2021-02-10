@@ -10,6 +10,7 @@ import com.example.simplemessage.feature.messageslist.MessagesListAdapter
 import com.example.simplemessage.feature.messages.MessagesRepository
 import com.example.simplemessage.feature.messages.MessagesViewModel
 import com.example.simplemessage.util.Consts
+import com.example.simplemessage.util.NetworkUtil
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
@@ -46,10 +47,14 @@ val databaseModule = module {
 }
 
 val architectureModule = module {
-    single { MessagesRepository(get(), get()) }
+    single { MessagesRepository(get(), get(), get()) }
     viewModel { MessagesViewModel(get()) }
 }
 
 val adaptersModule = module {
     factory { (click: (post: Post) -> Unit) -> MessagesListAdapter(click) }
+}
+
+val utilModule = module {
+    single { NetworkUtil(get()) }
 }

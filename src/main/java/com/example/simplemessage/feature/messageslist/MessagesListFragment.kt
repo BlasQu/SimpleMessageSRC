@@ -11,6 +11,7 @@ import com.example.simplemessage.data.states.LocalDataState
 import com.example.simplemessage.databinding.FragmentMessagesListBinding
 import com.example.simplemessage.feature.messages.MessagesActivity
 import com.example.simplemessage.feature.messages.MessagesViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -50,6 +51,10 @@ class MessagesListFragment: Fragment(R.layout.fragment_messages_list) {
             viewmodel.postsDataState.collect {
                 when (it) {
                     is LocalDataState.Success -> rvadapter.submitData(it.list)
+                    is LocalDataState.Error -> {
+                        rvadapter.submitData(emptyList())
+                        Snackbar.make(binding.root, it.error, Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

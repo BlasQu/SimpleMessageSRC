@@ -12,7 +12,7 @@ data class Post(
     @ColumnInfo(name = "id") val id: Int,
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "description") var description: String,
-    @ColumnInfo(name = "icon") val icon: String
+    @ColumnInfo(name = "icon") var icon: String
 )
 
 // 2 typy id, jedno dla database, drugie dla id posta pobranego z api, potrzebne,

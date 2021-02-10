@@ -4,13 +4,15 @@ import com.example.simplemessage.data.apis.ApiService
 import com.example.simplemessage.data.models.Message
 import com.example.simplemessage.data.models.Post
 import com.example.simplemessage.db.MessagesDao
+import com.example.simplemessage.util.NetworkUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class MessagesRepository(
     val dao: MessagesDao,
-    val api: ApiService
+    val api: ApiService,
+    val networkUtil: NetworkUtil
 ) {
     fun getPosts(): Flow<List<Post>> = dao.getPosts()
     suspend fun insertPosts(list: List<Post>) = dao.insertPosts(list)
@@ -30,5 +32,8 @@ class MessagesRepository(
     suspend fun updatePost(post: Post) = dao.updatePost(post)
 
     suspend fun insertPost(post: Post): Long = dao.insertPost(post)
+
+    fun isConnected(): Boolean = networkUtil.isConnected()
+
 
 }
