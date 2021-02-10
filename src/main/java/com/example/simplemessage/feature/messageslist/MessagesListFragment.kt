@@ -19,6 +19,7 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 class MessagesListFragment: Fragment(R.layout.fragment_messages_list) {
     lateinit var binding: FragmentMessagesListBinding
     lateinit var messagesActivity: MessagesActivity
+    private var rvScrollState: Int?  = null
     private val viewmodel by sharedViewModel<MessagesViewModel>()
     // private val rvadapter = get<MessagesListAdapter> { parametersOf({ post: Post -> performClick(post) }) }
     // problem with passing paramsOf (lambda with post item) to adapter with Koin

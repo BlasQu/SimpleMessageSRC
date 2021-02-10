@@ -26,6 +26,13 @@ class MessagesActivity : AppCompatActivity() {
 
         setupFragment()
         setupToolbar()
+        setupButtons()
+    }
+
+    private fun setupButtons() {
+        binding.fabRefreshData.setOnClickListener {
+            if (getLastFragment() == "MessagesList") viewmodel.getData()
+        }
     }
 
     private fun setupToolbar() {
@@ -96,6 +103,8 @@ class MessagesActivity : AppCompatActivity() {
                     setDisplayHomeAsUpEnabled(true)
                     title = resources.getString(R.string.message_info)
                 }
+
+                binding.fabRefreshData.hide()
             }
             "Post" -> {
                 supportFragmentManager.beginTransaction().apply {
@@ -113,6 +122,8 @@ class MessagesActivity : AppCompatActivity() {
                     setDisplayHomeAsUpEnabled(false)
                     title = resources.getString(R.string.app_name)
                 }
+
+                binding.fabRefreshData.show()
             }
         }
     }

@@ -76,7 +76,7 @@ class PostFragment: Fragment(R.layout.fragment_post) {
                         setNeutralButton("Cancel") { _, _ ->
 
                         }
-                    }
+                    }.create().show()
                 }
                 ContextCompat.checkSelfPermission(messagesActivity, permission) != PackageManager.PERMISSION_GRANTED -> {
                     ActivityCompat.requestPermissions(messagesActivity, arrayOf(permission), code)
@@ -164,7 +164,6 @@ class PostFragment: Fragment(R.layout.fragment_post) {
     private fun setupPost() {
         lifecycleScope.launch {
             viewmodel.currentPost.collect { post ->
-                Log.d("debug", post.toString())
                 binding.apply {
                     post?.let {
                         val title = post.title

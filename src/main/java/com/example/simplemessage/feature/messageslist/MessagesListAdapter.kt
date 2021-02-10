@@ -29,7 +29,7 @@ class MessagesListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val title = messagesData[position].title
+        val title = messagesData[position].title.capitalize()
         val iconUri = messagesData[position].icon
 
         holder.binding.apply {

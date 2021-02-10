@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleMessage">
-        <activity android:name=".feature.messages.MessagesActivity" />
+        <activity android:name=".feature.messages.MessagesActivity"
+            android:configChanges="screenLayout|keyboardHidden|orientation|screenSize"/>
         <activity android:name=".feature.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

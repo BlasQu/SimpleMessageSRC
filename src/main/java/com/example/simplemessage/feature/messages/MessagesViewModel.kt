@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simplemessage.data.models.Post
 import com.example.simplemessage.data.states.LocalDataState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -18,18 +19,28 @@ class MessagesViewModel(
     val currentPost = MutableStateFlow<Post?>(null)
 
     init {
+        getData()
+    }
+
+    fun getData() {
         viewModelScope.launch {
             repository.getPosts().collect {
                 if (it.isEmpty() && repository.isConnected()) {
-                    postsDataState.value = LocalDataState.Empty
-                    repository.responseGetPosts()?.let {
-                        viewModelScope.launch {
-                            repository.insertPosts(it)
-                        }
-                    }
+                    insertPosts()
                 }
-                else if (it.isEmpty()) postsDataState.value = LocalDataState.Error("Brak połączenia internetowego!")
+                else if (it.isEmpty()) {
+                    postsDataState.value = LocalDataState.Error("Brak połączenia internetowego!")
+                }
                 else postsDataState.value = LocalDataState.Success(it)
+            }
+        }
+    }
+
+    suspend fun insertPosts() {
+        postsDataState.value = LocalDataState.Empty
+        repository.responseGetPosts()?.let {
+            viewModelScope.launch {
+                repository.insertPosts(it)
             }
         }
     }
