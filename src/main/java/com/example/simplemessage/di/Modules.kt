@@ -1,6 +1,7 @@
 package com.example.simplemessage.di
 
 import android.app.Application
+import android.view.View
 import androidx.room.Room
 import com.example.simplemessage.data.apis.ApiService
 import com.example.simplemessage.db.MessagesDao
@@ -51,5 +52,5 @@ val architectureModule = module {
 }
 
 val adaptersModule = module {
-    factory { MessagesListAdapter() }
+    factory { (click: () -> Unit) -> MessagesListAdapter(click) }
 }

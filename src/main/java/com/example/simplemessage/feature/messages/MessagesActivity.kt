@@ -3,6 +3,8 @@ package com.example.simplemessage.feature.messages
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.example.simplemessage.R
 import com.example.simplemessage.databinding.ActivityMessagesBinding
 import com.example.simplemessage.feature.messageslist.MessagesListFragment
@@ -16,9 +18,20 @@ class MessagesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMessagesBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_messages)
+        setContentView(binding.root)
 
         setupFragment()
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        val toolbar = binding.holderToolbar.toolbar
+        setSupportActionBar(toolbar)
+
+        supportActionBar!!.apply {
+            title = resources.getString(R.string.app_name)
+            setDisplayHomeAsUpEnabled(false)
+        }
     }
 
     private fun setupFragment() {

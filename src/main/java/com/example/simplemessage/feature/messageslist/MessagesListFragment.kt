@@ -13,17 +13,18 @@ import com.example.simplemessage.databinding.FragmentMessagesListBinding
 import com.example.simplemessage.feature.adapters.MessagesListAdapter
 import com.example.simplemessage.feature.messages.MessagesActivity
 import com.example.simplemessage.feature.messages.MessagesViewModel
+import com.example.simplemessage.feature.post.PostFragment
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.core.parameter.parametersOf
 
 class MessagesListFragment: Fragment(R.layout.fragment_messages_list) {
-
     lateinit var binding: FragmentMessagesListBinding
     lateinit var messagesActivity: MessagesActivity
-    private val rvadapter = get<MessagesListAdapter>()
     private val viewmodel by sharedViewModel<MessagesViewModel>()
+    private val rvadapter = get<MessagesListAdapter> { parametersOf( { performClick() }) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,6 +32,14 @@ class MessagesListFragment: Fragment(R.layout.fragment_messages_list) {
         messagesActivity = activity as MessagesActivity
 
         setupRecyclerView()
+    }
+
+    private fun performClick() {
+        messagesActivity.supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container, PostFragment())
+            addToBackStack("PostList")
+            commit()
+        }
     }
 
     private fun setupRecyclerView() {
