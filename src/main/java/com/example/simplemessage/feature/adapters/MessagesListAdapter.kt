@@ -19,6 +19,13 @@ class MessagesListAdapter: RecyclerView.Adapter<MessagesListAdapter.ViewHolder>(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val title = messagesData[position].title
+        val iconUri = messagesData[position].icon
+
+        holder.binding.apply {
+            textTitle.text = title
+            imgIcon.setImageURI(iconUri)
+        }
     }
 
     override fun getItemCount(): Int {
